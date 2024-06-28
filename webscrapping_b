@@ -1,0 +1,30 @@
+#webscraping simple use from this website https://spcri.ir/page-Main/fa/0/form/pId394
+from bs4 import BeautifulSoup
+import requests
+import pandas as pd
+url="https://spcri.ir/page-Main/fa/0/form/pId394"
+page=requests.get(url)
+soup=BeautifulSoup(page.text,features="html.parser")
+
+outerhtml=""
+table=soup.findAll("table")[1]
+x=table.findAll("p")
+z=[i.text.strip() for i in x]
+#print(z)
+df=pd.DataFrame(columns=z[0:5])
+z.pop(0)
+z.pop(0)
+z.pop(0)
+z.pop(0)
+# z.pop(0)
+# for i in range(16):
+#     df.loc[i]=z[0:5]
+#     z.pop(0)
+#     z.pop(0)
+#     z.pop(0)
+#     z.pop(0)
+#     z.pop(0)
+
+
+with pd.ExcelWriter('بادمجان.xlsx') as writer:
+    df.to_excel(writer)
